@@ -1,5 +1,6 @@
 package ca.limin.controller;
 
+import ca.limin.Exception.ClassRosterDaoException;
 import ca.limin.dao.ClassRosterDao;
 import ca.limin.dao.ClassRosterDaoFileImpl;
 import ca.limin.dto.Student;
@@ -21,7 +22,7 @@ public class ClassRosterController {
         this.view = view;
     }
 
-    public void run() {
+    public void run() throws ClassRosterDaoException {
         boolean keepGoing = true;
         int menuSelection = 0;
         while (keepGoing) {
@@ -45,27 +46,27 @@ public class ClassRosterController {
         return view.printMenuAndGetSelection();
     }
 
-    private void createStudent() {
+    private void createStudent() throws ClassRosterDaoException {
         view.displayCreateStudentBanner();
         Student newStudent = view.getNewStudentInfo();
         dao.addStudent(newStudent.getStudentId(), newStudent);
         view.displayCreateSuccessBanner();
     }
 
-    private void listStudents() {
+    private void listStudents() throws ClassRosterDaoException {
         view.displayDisplayAllBanner();
         List<Student> studentList = dao.getAllStudents();
         view.displayStudentList(studentList);
     }
 
-    private void viewStudent() {
+    private void viewStudent() throws ClassRosterDaoException {
         view.displayDisplayStudentBanner();
         String studentId = view.getStudentIdChoice();
         Student student = dao.getStudent(studentId);
         view.displayStudent(student);
     }
 
-    private void removeStudent() {
+    private void removeStudent() throws ClassRosterDaoException {
         view.displayRemoveStudentBanner();
         String studentId = view.getStudentIdChoice();
         Student removedStudent = dao.removeStudent(studentId);
