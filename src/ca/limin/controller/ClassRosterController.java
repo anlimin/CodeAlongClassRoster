@@ -10,9 +10,16 @@ import ca.limin.ui.UserIOConsoleImpl;
 import java.util.List;
 
 public class ClassRosterController {
-    private final ClassRosterView view = new ClassRosterView();
+   // private final ClassRosterView view = new ClassRosterView();
     private final UserIO io = new UserIOConsoleImpl();
-    private final ClassRosterDao dao = new ClassRosterDaoFileImpl();
+    //private final ClassRosterDao dao = new ClassRosterDaoFileImpl();
+    private ClassRosterView view;
+    private ClassRosterDao dao;
+
+    public ClassRosterController(ClassRosterDao dao, ClassRosterView view) {
+        this.dao = dao;
+        this.view = view;
+    }
 
     public void run() {
         boolean keepGoing = true;
@@ -24,14 +31,14 @@ public class ClassRosterController {
             switch (menuSelection) {
                 case 1 -> listStudents();
                 case 2 -> createStudent();
-                case 3 -> io.print("VIEW STUDENT");
-                case 4 -> io.print("REMOVE STUDENT");
+                case 3 -> viewStudent();
+                case 4 -> removeStudent();
                 case 5 -> keepGoing = false;
-                default -> io.print("UNKNOWN COMMAND");
+                default -> unknownCommand();
             }
 
         }
-        io.print("GOOD BYE");
+        exitMessage();
     }
 
     private int getMenuSelection() {
@@ -51,4 +58,25 @@ public class ClassRosterController {
         view.displayStudentList(studentList);
     }
 
+    private void viewStudent() {
+        view.displayDisplayStudentBanner();
+        String studentId = view.getStudentIdChoice();
+        Student student = dao.getStudent(studentId);
+        view.displayStudent(student);
+    }
+
+    private void removeStudent() {
+        view.displayRemoveStudentBanner();
+        String studentId = view.getStudentIdChoice();
+        Student removedStudent = dao.removeStudent(studentId);
+        view.displayRemoveResult(removedStudent);
+    }
+
+    private void unknownCommand() {
+        view.displayUnknownCommandBanner();
+    }
+
+    private void exitMessage() {
+        view.displayExitBanner();
+    }
 }

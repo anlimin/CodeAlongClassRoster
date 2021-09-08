@@ -5,7 +5,12 @@ import ca.limin.dto.Student;
 import java.util.List;
 
 public class ClassRosterView {
-    private final UserIO io = new UserIOConsoleImpl();
+    //private final UserIO io = new UserIOConsoleImpl();
+    private UserIO io;
+
+    public ClassRosterView(UserIO io) {
+        this.io = io;
+    }
 
     public int printMenuAndGetSelection() {
         io.print("Main Menu");
@@ -52,6 +57,47 @@ public class ClassRosterView {
 
     public void displayDisplayAllBanner() {
         io.print("=== Display All Students ===");
+    }
+
+    public void displayDisplayStudentBanner () {
+        io.print("=== Display Student ===");
+    }
+
+    public String getStudentIdChoice() {
+        return io.readString("Please enter the Student ID.");
+    }
+
+    public void displayStudent(Student student) {
+        if (student != null) {
+            io.print(student.getStudentId());
+            io.print(student.getFirstName() + " " + student.getLastName());
+            io.print(student.getCohort());
+            io.print("");
+        } else {
+            io.print("No such student.");
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displayRemoveStudentBanner () {
+        io.print("=== Remove Student ===");
+    }
+
+    public void displayRemoveResult(Student studentRecord) {
+        if(studentRecord != null){
+            io.print("Student successfully removed.");
+        }else{
+            io.print("No such student.");
+        }
+        io.readString("Please hit enter to continue.");
+    }
+
+    public void displayExitBanner() {
+        io.print("Good Bye!!!");
+    }
+
+    public void displayUnknownCommandBanner() {
+        io.print("Unknown Command!!!");
     }
 }
 
