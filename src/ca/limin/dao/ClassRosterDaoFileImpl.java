@@ -9,21 +9,20 @@ import java.util.*;
 public class ClassRosterDaoFileImpl implements ClassRosterDao {
     public static final String ROSTER_FILE = "roster.txt";
     public static final String DELIMITER = "::";
-    private Map<String, Student> students = new HashMap<>();
+    private final Map<String, Student> students = new HashMap<>();
 
     @Override
-    public Student addStudent(String studentId, Student student)
+    public void addStudent(String studentId, Student student)
             throws ClassRosterDaoException {
         loadRoster();
-        Student newStudent = students.put(studentId, student);
+        students.put(studentId, student);
         writeRoster();
-        return newStudent;
     }
 
     @Override
     public List<Student> getAllStudents() throws ClassRosterDaoException {
         loadRoster();
-        return new ArrayList(students.values());
+        return new ArrayList<>(students.values());
     }
 
     @Override

@@ -11,35 +11,33 @@ import ca.limin.ui.UserIOConsoleImpl;
 import java.util.List;
 
 public class ClassRosterController {
-   // private final ClassRosterView view = new ClassRosterView();
-    private final UserIO io = new UserIOConsoleImpl();
-    //private final ClassRosterDao dao = new ClassRosterDaoFileImpl();
-    private ClassRosterView view;
-    private ClassRosterDao dao;
+    private final ClassRosterView view;
+    private final ClassRosterDao dao;
 
     public ClassRosterController(ClassRosterDao dao, ClassRosterView view) {
         this.dao = dao;
         this.view = view;
     }
 
-    public void run() throws ClassRosterDaoException {
+    public void run() {
         boolean keepGoing = true;
-        int menuSelection = 0;
-        while (keepGoing) {
-
-            menuSelection = getMenuSelection();
-
-            switch (menuSelection) {
-                case 1 -> listStudents();
-                case 2 -> createStudent();
-                case 3 -> viewStudent();
-                case 4 -> removeStudent();
-                case 5 -> keepGoing = false;
-                default -> unknownCommand();
+        int menuSelection;
+        try {
+            while (keepGoing) {
+                menuSelection = getMenuSelection();
+                switch (menuSelection) {
+                    case 1 -> listStudents();
+                    case 2 -> createStudent();
+                    case 3 -> viewStudent();
+                    case 4 -> removeStudent();
+                    case 5 -> keepGoing = false;
+                    default -> unknownCommand();
+                }
             }
-
+            exitMessage();
+        } catch (ClassRosterDaoException e) {
+            view.displayErrorMessage(e.getMessage());
         }
-        exitMessage();
     }
 
     private int getMenuSelection() {

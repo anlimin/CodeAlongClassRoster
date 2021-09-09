@@ -14,11 +14,9 @@ public interface ClassRosterDao {
      *
      * @param studentId id with which student is to be associated
      * @param student student to be added to the roster
-     * @return the Student object previously associated with the given
-     * student id if it exists, null otherwise
      * @throws ClassRosterDaoException
      */
-    Student addStudent(String studentId, Student student)
+    void addStudent(String studentId, Student student)
             throws ClassRosterDaoException;
 
     /**
